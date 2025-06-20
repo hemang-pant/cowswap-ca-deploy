@@ -1,0 +1,12 @@
+{
+  "redirects": [
+    {
+      "source": "/((?!#|.*[\\w\\d\\.-]\\.\\w{2,15}$).+)",
+      "destination": "/",
+      "permanent": false
+    }
+  ],
+  "buildCommand": "cd ../../ && npx nx build cowswap-frontend --configuration=$NX_CONFIGURATION",
+  "outputDirectory": "../../build/cowswap",
+  "installCommand": "cd ../../ && yarn"
+}
