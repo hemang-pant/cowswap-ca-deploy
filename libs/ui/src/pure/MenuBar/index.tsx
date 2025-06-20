@@ -46,9 +46,12 @@ import { Media } from '../../consts'
 import { BadgeType } from '../../types'
 import { Badge } from '../Badge'
 import { ProductLogo, ProductVariant } from '../ProductLogo'
+import { ApproveButton } from '../../../../../apps/cowswap-frontend/src/common/pure/ApproveButton/index'
 
 import type { CowSwapTheme } from '../../types'
 import { useBalanceModal } from "@arcana/ca-wagmi";
+import { ButtonConfirmed, ButtonSize } from '../Button'
+import { Web3StatusConnect, Wrapper } from '../../../../../apps/cowswap-frontend/src/modules/wallet/pure/Web3StatusInner/styled'
 
 
 
@@ -876,15 +879,24 @@ export const MenuBar = (props: MenuBarProps) => {
                 rootDomain={rootDomain}
               />
             ))}
-            <button
-              key="unified-bal"
-              className=''
-              onClick={() => {
-                  showModal();
-              }}
-            >
-              Unified Balance
-            </button>
+
+              <Wrapper
+                className='button'
+                onClick={() => {
+                  // setIsModalOpen(true)
+                  // showModal()
+                }}
+              >
+                <Web3StatusConnect
+                id="connect-wallet"
+                onClick={() => {
+                  // setIsModalOpen(true)
+                  showModal()
+                }}
+                >
+                Unified Balance
+                </Web3StatusConnect>
+                </Wrapper>
           </NavItems>
         )}
 

@@ -21,6 +21,7 @@ export function Web3Status({ pendingActivities, className, onClick }: Web3Status
   const { ensName } = useWalletDetails()
 
   const toggleWalletModal = useToggleWalletModal()
+  console.log("className", className)
 
   return (
     <Wrapper className={className} onClick={onClick}>
