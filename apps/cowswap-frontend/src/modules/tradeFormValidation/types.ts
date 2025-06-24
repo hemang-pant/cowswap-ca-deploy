@@ -59,22 +59,6 @@ export interface TradeFormValidationCommonContext {
   isInsufficientBalanceOrderAllowed: boolean
   isProviderNetworkUnsupported: boolean
   isOnline: boolean
-  balances: UseQueryResult<{
-    decimals: number;
-    formatted: string;
-    symbol: string;
-    value: bigint;
-    breakdown: {
-        chain: {
-            id: number;
-            name: string;
-            logo: string;
-        };
-        formatted: string;
-        address: string;
-        value: bigint;
-    }[];
-}[] | null>
 }
 
 export interface TradeFormValidationContext extends TradeFormValidationCommonContext {}
