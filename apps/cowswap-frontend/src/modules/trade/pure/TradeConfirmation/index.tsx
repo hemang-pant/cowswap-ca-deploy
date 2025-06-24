@@ -20,6 +20,8 @@ import * as styledEl from './styled'
 import { NoImpactWarning } from '../../containers/NoImpactWarning'
 import { useTradeConfirmState } from '../../hooks/useTradeConfirmState'
 import { PriceUpdatedBanner } from '../PriceUpdatedBanner'
+import Decimal from 'decimal.js';
+import { useCAFn, useUnifiedBalance } from '@arcana/ca-wagmi';
 
 export interface TradeConfirmationProps {
   onConfirm(): Promise<void | false>
@@ -89,6 +91,10 @@ export function TradeConfirmation(props: TradeConfirmationProps) {
     recipient &&
     (account || ensName) &&
     ![account?.toLowerCase(), ensName?.toLowerCase()].includes(recipient.toLowerCase())
+    const { bridge } = useCAFn();
+    const caBalances = useUnifiedBalance().balances;
+    const caBigInt = useUnifiedBalance().balance;
+
 
   const inputAmount = inputCurrencyInfo.amount?.toExact()
   const outputAmount = outputCurrencyInfo.amount?.toExact()
@@ -96,7 +102,7 @@ export function TradeConfirmation(props: TradeConfirmationProps) {
   const { isPriceChanged, resetPriceChanged } = useIsPriceChanged(inputAmount, outputAmount, forcePriceConfirmation)
 
   const isButtonDisabled =
-    isConfirmDisabled || (isPriceChanged && !isPriceStatic) || hasPendingTrade || isConfirmClicked
+    (isPriceChanged && !isPriceStatic) || hasPendingTrade || isConfirmClicked
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -113,6 +119,34 @@ export function TradeConfirmation(props: TradeConfirmationProps) {
     }
 
     setIsConfirmClicked(true)
+    console.log(inputCurrencyInfo.amount)
+    console.log(caBalances
+            ?.find((balance) => balance.symbol === inputCurrencyInfo?.amount?.currency?.symbol)?.balance!)
+
+    if( inputCurrencyInfo?.amount?.toExact()! > inputCurrencyInfo?.balance?.toExact()! 
+      )
+        
+   { 
+    console.log('CA bridge functionality triggered');
+    const decimalAmount = new Decimal(inputCurrencyInfo?.amount?.toExact()!).sub(
+              caBalances
+                ?.find((balance) => balance.symbol === inputCurrencyInfo?.amount?.currency?.symbol)
+                ?.breakdown.find((breakdown) => breakdown.chain.id === inputCurrencyInfo?.amount?.currency?.chainId)
+                ?.balance!
+            )
+            .add( inputCurrencyInfo?.amount?.currency?.symbol != 'WETH' ? '0' : '0.000001')
+            .toString();
+    // add CA bridge functionality here
+    await bridge({
+            amount: decimalAmount,
+            token: ['USDC', 'USDT', 'ETH', 'usdc', 'usdt', 'eth'].find(
+              (token) => token === inputCurrencyInfo?.amount?.currency?.symbol?.toLowerCase()
+            ) as 'USDC' | 'USDT' | 'ETH' | 'usdc' | 'usdt' | 'eth',
+            chain: inputCurrencyInfo?.amount?.currency?.chainId!,
+          });}
+        
+
+
     const isConfirmed = await onConfirm()
 
     if (!isConfirmed) {
@@ -167,7 +201,7 @@ export function TradeConfirmation(props: TradeConfirmationProps) {
               Confirm with your wallet <CenteredDots smaller />
             </LongLoadText>
           ) : (
-            <Trans>{buttonText}</Trans>
+            <Trans>Confirm Swap</Trans>
           )}
         </ButtonPrimary>
       </styledEl.ContentWrapper>

@@ -6,6 +6,7 @@ import { TradeQuoteState } from 'modules/tradeQuote'
 import { ApprovalState } from 'common/hooks/useApproveState'
 
 import { AmountsToSign } from '../trade/hooks/useAmountsToSign'
+import { UseQueryResult } from '@tanstack/react-query'
 
 export enum TradeFormValidation {
   // Wrap/unwrap
@@ -58,6 +59,22 @@ export interface TradeFormValidationCommonContext {
   isInsufficientBalanceOrderAllowed: boolean
   isProviderNetworkUnsupported: boolean
   isOnline: boolean
+  balances: UseQueryResult<{
+    decimals: number;
+    formatted: string;
+    symbol: string;
+    value: bigint;
+    breakdown: {
+        chain: {
+            id: number;
+            name: string;
+            logo: string;
+        };
+        formatted: string;
+        address: string;
+        value: bigint;
+    }[];
+}[] | null>
 }
 
 export interface TradeFormValidationContext extends TradeFormValidationCommonContext {}

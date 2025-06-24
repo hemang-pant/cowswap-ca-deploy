@@ -9,5 +9,5 @@ export const tradeFormValidationAtom = atom((get) => {
 
   if (!context) return null
 
-  return validateTradeForm(context)
+  return validateTradeForm({ ...context})
 })

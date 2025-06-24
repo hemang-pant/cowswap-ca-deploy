@@ -33,13 +33,17 @@ export function validateTradeForm(context: TradeFormValidationContext): TradeFor
   const isBalanceGreaterThan1Atom = inputCurrencyBalance
     ? BigInt(inputCurrencyBalance.quotient.toString()) > BigInt(0)
     : false
-  const canPlaceOrderWithoutBalance = isBalanceGreaterThan1Atom && isInsufficientBalanceOrderAllowed && !isWrapUnwrap
+  const canPlaceOrderWithoutBalance = true
   const isNativeIn = inputCurrency && getIsNativeToken(inputCurrency) && !isWrapUnwrap
 
   const approvalRequired =
     !isPermitSupported && (approvalState === ApprovalState.NOT_APPROVED || approvalState === ApprovalState.PENDING)
 
   const inputAmountIsNotSet = !inputCurrencyAmount || isFractionFalsy(inputCurrencyAmount)
+  // const { data: balances } = useBalances();
+  // const balance = context.balances!.data!.find(
+  //   (b) => b.symbol === inputCurrency?.symbol
+  // );
   const isFastQuote = tradeQuote.fetchParams?.priceQuality === PriceQuality.FAST
 
   // Always check if the browser is online before checking any other conditions
@@ -107,9 +111,9 @@ export function validateTradeForm(context: TradeFormValidationContext): TradeFor
       return TradeFormValidation.BalancesNotLoaded
     }
 
-    if (inputCurrencyBalance.lessThan(inputCurrencyAmount)) {
-      return TradeFormValidation.BalanceInsufficient
-    }
+    // if ( 5 > inputCurrencyBalance.currency.decimals) {
+    //   return TradeFormValidation.BalanceInsufficient
+    // }
   }
 
   if (isWrapUnwrap) {
