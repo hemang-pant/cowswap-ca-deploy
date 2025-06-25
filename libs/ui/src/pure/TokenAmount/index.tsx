@@ -7,6 +7,8 @@ import styled from 'styled-components/macro'
 
 import { UI } from '../../enum'
 import { TokenNameAndSymbol, TokenSymbol } from '../TokenSymbol'
+import { useBalance } from 'wagmi'
+import { useBalances } from '@arcana/ca-wagmi'
 
 export const Wrapper = styled.span<{ lowVolumeWarning?: boolean; clickable?: boolean }>`
   background: ${({ lowVolumeWarning }) => (lowVolumeWarning ? `var(${UI.COLOR_ALERT_BG})` : '')};
@@ -74,11 +76,16 @@ export function TokenAmount({
         <TokenSymbol token={tokenSymbol} />
       </>
     )
+  const caBalances = useBalances();
+  const isTokenSupported = caBalances.data?.find(
+    (balance) => balance.symbol === (tokenSymbol?.symbol )
+  )
+
 
   const roundedAmount = round ? FractionUtils.round(amount) : amount
   return (
     <Wrapper title={title} className={className} clickable={clickable}>
-      {formatTokenAmount(roundedAmount) || defaultValue}
+      {isTokenSupported ? Number(isTokenSupported.formatted).toPrecision(5) :(formatTokenAmount(roundedAmount) || defaultValue)}
       <SymbolElement opacitySymbol={opacitySymbol}>{tokenSymbolElement}</SymbolElement>
     </Wrapper>
   )
