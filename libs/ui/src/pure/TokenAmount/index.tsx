@@ -78,10 +78,7 @@ export function TokenAmount({
     )
   const caBalances = useBalances();
   const isTokenSupported = caBalances.data?.find(
-    (balance) => balance.symbol === (tokenSymbol?.symbol )
-  )
-
-
+    (balance) => balance.symbol === (tokenSymbol?.symbol == "WETH" ? "ETH" : tokenSymbol?.symbol))
   const roundedAmount = round ? FractionUtils.round(amount) : amount
   return (
     <Wrapper title={title} className={className} clickable={clickable}>
