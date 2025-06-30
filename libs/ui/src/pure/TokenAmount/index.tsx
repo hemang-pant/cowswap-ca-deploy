@@ -7,7 +7,6 @@ import styled from 'styled-components/macro'
 
 import { UI } from '../../enum'
 import { TokenNameAndSymbol, TokenSymbol } from '../TokenSymbol'
-import { useBalance } from 'wagmi'
 import { useBalances } from 'apps/cowswap-frontend/src/modules/ca-ui/src'
 
 export const Wrapper = styled.span<{ lowVolumeWarning?: boolean; clickable?: boolean }>`

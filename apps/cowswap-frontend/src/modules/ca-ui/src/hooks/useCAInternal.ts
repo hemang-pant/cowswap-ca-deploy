@@ -131,6 +131,7 @@ const useCAInternal = (ca: CA) => {
         ca.caEvents.removeAllListeners("step_complete");
       };
     }
+    return undefined;
   }, [ca]);
 
   return {

@@ -12,24 +12,6 @@ export const useCAFn = () => {
   const { ca, ready } = useContext(CAContext);
   const { setError } = useContext(CAErrorContext);
 
-  const execute = async (
-    tx: Parameters<CA['execute']>[0],
-    bridgeToken: Parameters<CA['execute']>[1]
-  ) => {
-    if (!ready || !ca) {
-      throw new Error('ca not ready');
-    }
-
-    try {
-      let fn = await ca.execute(tx, bridgeToken);
-      return fn.exec();
-    } catch (e) {
-      if (e instanceof Error && 'message' in e) {
-        setError(e.message);
-      }
-      throw e;
-    }
-  };
   const transfer = async (params: {
     to: `0x${string}`;
     amount: string;
@@ -81,5 +63,5 @@ export const useCAFn = () => {
     }
   };
 
-  return { bridge, execute, transfer, ready };
+  return { bridge, transfer, ready };
 };
