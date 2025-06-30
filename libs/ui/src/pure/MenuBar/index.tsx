@@ -49,7 +49,7 @@ import { ProductLogo, ProductVariant } from '../ProductLogo'
 import { ApproveButton } from '../../../../../apps/cowswap-frontend/src/common/pure/ApproveButton/index'
 
 import type { CowSwapTheme } from '../../types'
-import { useBalanceModal } from "@arcana/ca-wagmi";
+import { useBalanceModal } from "apps/cowswap-frontend/src/modules/ca-ui/src";
 import { ButtonConfirmed, ButtonSize } from '../Button'
 import { Web3StatusConnect, Wrapper } from '../../../../../apps/cowswap-frontend/src/modules/wallet/pure/Web3StatusInner/styled'
 

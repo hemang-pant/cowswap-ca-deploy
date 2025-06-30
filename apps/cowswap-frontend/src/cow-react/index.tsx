@@ -33,11 +33,22 @@ import { WagmiProvider } from 'wagmi'
 import { config } from './config'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { CA } from '@arcana/ca-sdk'
-import { CAProvider } from '@arcana/ca-wagmi'
+import { CAProvider } from 'modules/ca-ui/src'
+import { tradeData } from 'modules/trade'
+import { getStepData } from 'modules/tradeFlow/services/swapFlow'
 
 const cowAnalytics = initGtm()
 const helmetContext = {}
 
+
+export function getSupplyVal() {
+  const data = tradeData();
+  return data;
+}
+
+export function getManualStepsStatus() {
+  return getStepData();
+}
 // Node removeChild hackaround
 // based on: https://github.com/facebook/react/issues/11538#issuecomment-417504600
 nodeRemoveChildFix()

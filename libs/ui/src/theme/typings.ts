@@ -6,6 +6,25 @@ type ColorValue = string
 
 export interface Colors {
   darkMode: boolean
+  backgroundColor: string
+  primaryColor: string
+  secondaryColor: string
+  backgroundOverlyColor: string
+  buttonTextColor: string
+  primaryTitleColor: string
+  secondaryTitleColor: string
+  modalBackground: string
+  cardBackGround: string
+  cardDetailsBackGround: string
+  balanceCardBackGround: string
+  chainAbsColor: string;
+  chainAbsBackGround: string
+  infoColor: string
+  infoBackground: string
+  chainAbsDetailsColor: string
+  chainAbsTitle: string
+  footerImg: string
+  infoImg: string
   primary: ColorValue
   background: ColorValue
   paper: ColorValue

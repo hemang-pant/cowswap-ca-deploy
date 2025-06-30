@@ -28,6 +28,8 @@ export interface EthFlowParams {
   analytics: TradeFlowAnalytics
 }
 
+
+
 // TODO: Break down this large function into smaller functions
 // eslint-disable-next-line max-lines-per-function
 export async function ethFlow({
@@ -54,17 +56,19 @@ export async function ethFlow({
   const tradeAmounts = { inputAmount, outputAmount }
   const { account, recipientAddressOrName, kind } = orderParams
 
+  console.log(" eth flow step 1")
   logTradeFlow('ETH FLOW', 'STEP 1: confirm price impact')
   if (priceImpactParams?.priceImpact && !(await confirmPriceImpactWithoutFee(priceImpactParams.priceImpact))) {
     return false
   }
 
   orderParams.appData = await removePermitHookFromAppData(orderParams.appData, typedHooks)
-
+  console.log(" triggering manual step 1")
   logTradeFlow('ETH FLOW', 'STEP 2: send transaction')
   analytics.trade(swapFlowAnalyticsContext)
   tradeConfirmActions.onSign(tradeAmounts)
-
+  console.log(" eth flow step 2")
+  console.log(" triggering manual step 2")
   try {
     // Do not proceed if fee is expired
     if (isQuoteExpired(tradeQuoteState)) {

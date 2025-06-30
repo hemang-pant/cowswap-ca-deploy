@@ -32,11 +32,14 @@ import { SwapConfirmModal } from '../SwapConfirmModal'
 import { SwapRateDetails } from '../SwapRateDetails'
 import { TradeButtons } from '../TradeButtons'
 import { Warnings } from '../Warnings'
+import Decimal from 'decimal.js';
 
 export interface SwapWidgetProps {
   topContent?: ReactNode
   bottomContent?: ReactNode
 }
+
+
 
 // TODO: Break down this large function into smaller functions
 // TODO: Add proper return type annotation
@@ -71,7 +74,7 @@ export function SwapWidget({ topContent, bottomContent }: SwapWidgetProps) {
   } = useSwapDerivedState()
   const doTrade = useHandleSwap(useSafeMemoObject({ deadline: deadlineState[0] }), widgetActions)
   const hasEnoughWrappedBalanceForSwap = useHasEnoughWrappedBalanceForSwap()
-
+  // supplyVal = inputCurrencyAmount?.toExact() ? Decimal(inputCurrencyAmount.toExact()) : Decimal('0')
   const isSellTrade = isSellOrder(orderKind)
 
   const ethFlowProps: EthFlowProps = useSafeMemoObject({

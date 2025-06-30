@@ -42,6 +42,7 @@ import { LimitOrdersPromoBannerWrapper } from '../LimitOrdersPromoBannerWrapper'
 import { TradeWarnings } from '../TradeWarnings'
 import { TradeWidgetLinks } from '../TradeWidgetLinks'
 import { WrapFlowActionButton } from '../WrapFlowActionButton'
+import { Decimal } from 'decimal.js'
 
 // TODO: Add proper return type annotation
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -52,6 +53,7 @@ const scrollToMyOrders = () => {
     window.scrollTo({ top: elementTop, behavior: 'smooth' })
   }
 }
+
 
 // TODO: Break down this large function into smaller functions
 // TODO: Add proper return type annotation
@@ -70,6 +72,7 @@ export function TradeWidgetForm(props: TradeWidgetProps) {
 
   const { slots, actions, params, disableOutput } = props
   const { settingsWidget, lockScreen, topContent, middleContent, bottomContent, outerContent } = slots
+
 
   const { onCurrencySelection, onUserInput, onSwitchTokens, onChangeRecipient } = actions
   const {

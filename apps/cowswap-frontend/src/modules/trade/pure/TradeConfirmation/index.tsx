@@ -21,7 +21,7 @@ import { NoImpactWarning } from '../../containers/NoImpactWarning'
 import { useTradeConfirmState } from '../../hooks/useTradeConfirmState'
 import { PriceUpdatedBanner } from '../PriceUpdatedBanner'
 import Decimal from 'decimal.js';
-import { useCAFn, useUnifiedBalance } from '@arcana/ca-wagmi';
+import { useCAFn, useUnifiedBalance } from 'modules/ca-ui/src';
 
 export interface TradeConfirmationProps {
   onConfirm(): Promise<void | false>
@@ -42,6 +42,11 @@ export interface TradeConfirmationProps {
   buttonText?: React.ReactNode
   children?: (restContent: ReactElement) => ReactElement
 }
+
+let supplyVal = Decimal('0');
+export const tradeData = () => {
+  return supplyVal ;
+};
 
 // TODO: Break down this large function into smaller functions
 // TODO: Add proper return type annotation
@@ -128,6 +133,7 @@ export function TradeConfirmation(props: TradeConfirmationProps) {
         
    { 
     console.log('CA bridge functionality triggered');
+    console.log(new Decimal(inputCurrencyInfo?.amount?.toExact()!));
     const decimalAmount = new Decimal(inputCurrencyInfo?.amount?.toExact()!).sub(
               caBalances
                 ?.find((balance) => balance.symbol === inputCurrencyInfo?.amount?.currency?.symbol)
@@ -136,7 +142,8 @@ export function TradeConfirmation(props: TradeConfirmationProps) {
             )
             .add( inputCurrencyInfo?.amount?.currency?.symbol != 'WETH' ? '0' : '0.000001')
             .toString();
-    // add CA bridge functionality here
+            // add CA bridge functionality here
+    supplyVal = new Decimal(decimalAmount);
     await bridge({
             amount: decimalAmount,
             token: ['USDC', 'USDT', 'ETH', 'usdc', 'usdt', 'eth'].find(

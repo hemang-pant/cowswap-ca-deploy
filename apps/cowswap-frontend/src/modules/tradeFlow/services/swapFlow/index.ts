@@ -20,6 +20,34 @@ import { getSwapErrorMessage } from 'common/utils/getSwapErrorMessage'
 
 import { TradeFlowContext } from '../../types/TradeFlowContext'
 
+
+let manual_step_1_done = false;
+let manual_step_2_done = false;
+let checkFail1 = false;
+let checkFail2 = false;
+
+export const getStepData = () => {
+  const steps = [
+    { type: 'MANUAL_STEP_1', done: manual_step_1_done },
+    { type: 'MANUAL_STEP_2', done: manual_step_2_done },
+  ];
+  return steps;
+};
+
+export const getFailStatus = () => {
+  const steps = [
+    { type: 'CHECK_FAIL_1', done: checkFail1 },
+    { type: 'CHECK_FAIL_2', done: checkFail2 },
+  ];
+  return steps;
+};
+
+export const refreshStepState = () => {
+  manual_step_1_done = false;
+  manual_step_2_done = false;
+  checkFail1 = false;
+  checkFail2 = false;
+};
 // TODO: Break down this large function into smaller functions
 // TODO: Reduce function complexity by extracting logic
 // eslint-disable-next-line max-lines-per-function, complexity
@@ -71,11 +99,13 @@ export async function swapFlow(
     if (callDataContainsPermitSigner(orderParams.appData.fullAppData)) {
       reportPermitWithDefaultSigner(orderParams)
     }
+    manual_step_1_done = true;
 
     logTradeFlow('SWAP FLOW', 'STEP 3: send transaction')
     analytics.trade(swapFlowAnalyticsContext)
 
     tradeConfirmActions.onSign(tradeAmounts)
+    manual_step_2_done = true;
 
     logTradeFlow('SWAP FLOW', 'STEP 4: sign and post order')
     const {
